@@ -11,6 +11,7 @@
             @endforeach
         </ul>
     @endif
-    {!! link_to_route('tasks.create', '新規作成', ['id' => $task->id]) !!}
+    
+    {!! link_to_route('tasks.create', '新規作成') !!}
 
 @endsection
