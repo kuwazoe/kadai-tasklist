@@ -11,5 +11,23 @@
 |
 */
 
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 Route::get('/', 'TasksController@index');
-route::resource('tasks', 'TasksController');
+Route::resource('tasks', 'TasksController');
+
+Route::get('signup', 'Auth\AuthController@getRegister')->name('signup.get');
+Route::post('signup', 'Auth\AuthController@postRegister')->name('signup.post');
+
+Route::get('login', 'Auth\AuthController@getLogin')->name('login.get');
+Route::post('login', 'Auth\AuthController@postLogin')->name('login.post');
+Route::get('logout', 'Auth\AuthController@getLogout')->name('logout.get');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+    Route::group(['prefix' => 'users/{id}'], function() {
+        Route::get('tasks', 'TasksController@index')->name('tasks.index');
+    });
+    Route::resource('Tasks', 'TasksController', ['only' => ['store', 'destroy']]);
+});
